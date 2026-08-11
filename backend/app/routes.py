@@ -20,7 +20,9 @@ def start_interview(request: StartInterviewRequest):
 
     session = session_manager.create_session(
         request.role,
-        request.experience
+        request.experience,
+        request.username,
+        request.duration
     )
 
     result = service.ask_question(session)

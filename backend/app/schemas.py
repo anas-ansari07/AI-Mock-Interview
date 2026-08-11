@@ -4,6 +4,8 @@ from pydantic import BaseModel
 class StartInterviewRequest(BaseModel):
     role: str
     experience: str
+    username: str
+    duration: int
 
 
 class AnswerRequest(BaseModel):

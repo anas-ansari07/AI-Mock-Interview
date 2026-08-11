@@ -1,6 +1,8 @@
 export interface StartInterviewRequest {
   role: string;
   experience: string;
+  username: string;
+  duration: number;
 }
 
 export interface StartInterviewResponse {
