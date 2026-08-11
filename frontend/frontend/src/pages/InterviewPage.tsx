@@ -4,7 +4,11 @@ import {
   submitAnswer,
   finishInterview,
 } from "../api/InterviewApi";
-import { type InterviewReport, type ChatMessage, type Feedback } from "../types/interview";
+import {
+  type InterviewReport,
+  type ChatMessage,
+  type Feedback,
+} from "../types/interview";
 import ChatWindow from "../components/ChatWindow";
 import AnswerInput from "../components/AnswerInput";
 import FeedbackCard from "../components/FeedBackCard";
@@ -17,14 +21,14 @@ export default function InterviewPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState<Feedback | null>(null);
-  const [role, setRole] = useState(".Net Backend Developer");
-  const [experience, setExperience] = useState("2 Years");
+  const [role, setRole] = useState("");
+  const [experience, setExperience] = useState("");
   const [username, setusername] = useState("");
-  const [duration, setduration] = useState(1800);
-  const [report,setreport] = useState<InterviewReport | null>(null);
+  const [duration, setduration] = useState(10);
+  const [report, setreport] = useState<InterviewReport | null>(null);
 
   const roles = [
-    ".NET Backend Developer",
+    ".Net Backend Developer",
     "React Developer",
     "Python Developer",
     "Java Developer",
@@ -42,26 +46,22 @@ export default function InterviewPage() {
   ];
 
   const totalDuration = [
-    "10 minutes",
-    "15 minutes",
-    "20 minutes",
-    "25 minutes",
-    "30 minutes",
+    "10",
+    "15",
+    "20",
+    "25",
+    "30",
   ];
 
   const secondsLeft = useCountdown({
-    duration,
+    duration: duration * 60,
     isRunning: !!sessionId,
   });
 
-  
   async function handleStartInterview() {
     setLoading(true);
-
     try {
       const response = await startInterview({
-        //role: ".NET Backend Developer",
-        //experience: "2 years",
         role,
         experience,
         username,
@@ -69,7 +69,8 @@ export default function InterviewPage() {
       });
 
       setSessionId(response.session_id);
-
+      setduration(duration);
+      console.log(duration);
       setMessages([
         {
           id: crypto.randomUUID(),
@@ -157,26 +158,23 @@ export default function InterviewPage() {
     }
   }
 
-  if(report){
-    return  (
-      <GenerateInterviewReport report = {report}
-      />
-    );
+  if (report) {
+    return <GenerateInterviewReport report={report} />;
   }
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
-
-    
-
       {/* Header */}
-
-      <div className="text-xl font-bold">
-        {sessionId && formatTime(secondsLeft)}
-      </div>
-
       <header className="border-b border-slate-700 px-8 py-5">
-        <h1 className="text-3xl font-bold">Interview Coach AI</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold">Interview Coach AI</h1>
+
+          {sessionId && (
+            <div className="rounded-lg bg-slate-800 px-4 py-2 text-lg font-semibold text-green-400 shadow">
+              {formatTime(secondsLeft)}
+            </div>
+          )}
+        </div>
       </header>
 
       {/* Body */}
@@ -242,7 +240,7 @@ export default function InterviewPage() {
               >
                 {totalDuration.map((duration) => (
                   <option key={duration} value={duration}>
-                    {duration}
+                    {duration} Minutes
                   </option>
                 ))}
                 /
