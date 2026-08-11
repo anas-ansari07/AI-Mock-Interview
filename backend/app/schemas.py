@@ -22,3 +22,22 @@ class AIInterviewResponse(BaseModel):
     session_id: str
     feedback: Feedback
     next_question: str
+
+class FinishInterviewRequest(BaseModel):
+    session_id: str
+
+class InterviewReportResponse(BaseModel):
+
+    overall_score: int
+
+    technical_score: int
+
+    communication_score: int
+
+    confidence_score: int
+
+    strengths: list[str]
+
+    weaknesses: list[str]
+
+    recommendations: list[str]

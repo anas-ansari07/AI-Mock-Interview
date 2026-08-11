@@ -27,7 +27,7 @@ class InterviewService:
             messages=messages
         )
 
-        print(response)
+        #print(response)
         #print("ChoicesL ", response.choices)
 
         reply = response.choices[0].message.content

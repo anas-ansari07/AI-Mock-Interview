@@ -1,10 +1,15 @@
 import { useState } from "react";
-import { startInterview, submitAnswer } from "../api/InterviewApi";
-import type { ChatMessage, Feedback } from "../types/interview";
+import {
+  startInterview,
+  submitAnswer,
+  finishInterview,
+} from "../api/InterviewApi";
+import { type InterviewReport, type ChatMessage, type Feedback } from "../types/interview";
 import ChatWindow from "../components/ChatWindow";
 import AnswerInput from "../components/AnswerInput";
 import FeedbackCard from "../components/FeedBackCard";
 import useCountdown from "../hooks/useCountdown";
+import GenerateInterviewReport from "./InterviewReport";
 import { formatTime } from "../utils/formatTime";
 
 export default function InterviewPage() {
@@ -16,6 +21,7 @@ export default function InterviewPage() {
   const [experience, setExperience] = useState("2 Years");
   const [username, setusername] = useState("");
   const [duration, setduration] = useState(1800);
+  const [report,setreport] = useState<InterviewReport | null>(null);
 
   const roles = [
     ".NET Backend Developer",
@@ -48,6 +54,7 @@ export default function InterviewPage() {
     isRunning: !!sessionId,
   });
 
+  
   async function handleStartInterview() {
     setLoading(true);
 
@@ -134,8 +141,34 @@ export default function InterviewPage() {
     setLoading(false);
   }
 
+  async function handleFinishInterview() {
+    if (!sessionId) return;
+
+    try {
+      const report = await finishInterview({
+        session_id: sessionId,
+      });
+
+      setreport(report);
+
+      console.log(report);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  if(report){
+    return  (
+      <GenerateInterviewReport report = {report}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-900 text-white">
+
+    
+
       {/* Header */}
 
       <div className="text-xl font-bold">
@@ -231,6 +264,15 @@ export default function InterviewPage() {
         {feedback && <FeedbackCard feedback={feedback} />}
 
         {sessionId && <AnswerInput loading={loading} onSubmit={handleAnswer} />}
+
+        {sessionId && (
+          <button
+            onClick={handleFinishInterview}
+            className="mt-4 rounded-lg bg-red-600 px-6 py-3 text-white hover:bg-red-500"
+          >
+            Finish Interview
+          </button>
+        )}
       </main>
     </div>
   );

@@ -33,3 +33,17 @@ export interface ChatMessage {
   text: string;
   isTyping?: boolean
 }
+
+export interface FinishInterviewRequest {
+  session_id: string;
+}
+
+export interface InterviewReport {
+  overall_score: number;
+  technical_score: number;
+  communication_score: number;
+  confidence_score: number;
+  strengths: string[];
+  weaknesses: string[];
+  recommendations: string[];
+}

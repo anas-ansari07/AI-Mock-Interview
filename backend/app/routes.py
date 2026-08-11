@@ -1,15 +1,19 @@
 from fastapi import APIRouter
 from app.session_manager import SessionManager
 from app.services.interview_service import InterviewService
+from app.services.report_service import ReportService
+from app.session import InterviewStatus
 from app.schemas import(
     StartInterviewRequest,
     AnswerRequest,
-    AIInterviewResponse
+    AIInterviewResponse,
+    FinishInterviewRequest
 )
 
 router = APIRouter()
 session_manager = SessionManager()
 service = InterviewService()
+reportservice = ReportService()
 
 # My Fist Post Request to Start the interview and store everything 
 # in session to have a history
@@ -69,3 +73,25 @@ def answer(request: AnswerRequest):
     "feedback": reply["feedback"],
     "next_question": reply["next_question"]
     }
+
+
+@router.post("/finish")
+def finish_interview(request: FinishInterviewRequest):
+
+    session = session_manager.get_session(
+        request.session_id
+    )
+
+    if session is None:
+
+        return {
+            "error":"Session not found"
+        }
+
+    session.status = InterviewStatus.COMPLETED
+
+    report = reportservice.generate_report(
+        session.history
+    )
+
+    return report
