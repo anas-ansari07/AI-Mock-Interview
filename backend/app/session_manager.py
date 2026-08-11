@@ -11,8 +11,8 @@ class SessionManager:
 
     def create_session(self, role, experience,username,duration):
 
-        #print(f"Role received: '{role}'")
-        #print(INTERVIEW_PLANS.keys())
+        print(f"Role received: '{role}'")
+        print(INTERVIEW_PLANS.keys())
         plan = INTERVIEW_PLANS[role]
 
         session = InterviewSession(

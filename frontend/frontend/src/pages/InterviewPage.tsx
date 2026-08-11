@@ -21,8 +21,8 @@ export default function InterviewPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState<Feedback | null>(null);
-  const [role, setRole] = useState("");
-  const [experience, setExperience] = useState("");
+  const [role, setRole] = useState(".Net Backend Developer");
+  const [experience, setExperience] = useState("3 Years");
   const [username, setusername] = useState("");
   const [duration, setduration] = useState(10);
   const [report, setreport] = useState<InterviewReport | null>(null);
@@ -199,7 +199,10 @@ export default function InterviewPage() {
 
               <select
                 value={role}
-                onChange={(e) => setRole(e.target.value)}
+                onChange={(e) => {
+                  console.log("Selected:", e.target.value);
+                  setRole(e.target.value)}}
+                
                 className="w-full rounded-lg border border-slate-600 bg-slate-700 px-4 py-2 text-white outline-none focus:border-blue-500"
               >
                 {roles.map((r) => (

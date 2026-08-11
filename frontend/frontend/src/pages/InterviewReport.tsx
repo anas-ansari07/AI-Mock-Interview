@@ -23,7 +23,7 @@ export default function GenerateInterviewReport({
             </h2>
 
             <p className="mt-4 text-5xl font-bold text-blue-400">
-              {report.overall_score}%
+              {report.overall_score/10}10
             </p>
           </div>
 
@@ -33,7 +33,7 @@ export default function GenerateInterviewReport({
             </h2>
 
             <p className="mt-4 text-5xl font-bold text-green-400">
-              {report.technical_score}/10
+              {report.technical_score/10}/10
             </p>
           </div>
 
@@ -43,7 +43,7 @@ export default function GenerateInterviewReport({
             </h2>
 
             <p className="mt-4 text-5xl font-bold text-yellow-400">
-              {report.communication_score}/10
+              {report.communication_score/10}/10
             </p>
           </div>
 
@@ -53,7 +53,7 @@ export default function GenerateInterviewReport({
             </h2>
 
             <p className="mt-4 text-5xl font-bold text-purple-400">
-              {report.confidence_score}/10
+              {report.confidence_score/10}/10
             </p>
           </div>
 

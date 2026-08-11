@@ -10,10 +10,13 @@ from app.schemas import(
     FinishInterviewRequest
 )
 
+from app.database.repository import ReportRepository
+
 router = APIRouter()
 session_manager = SessionManager()
 service = InterviewService()
 reportservice = ReportService()
+report_repository = ReportRepository()
 
 # My Fist Post Request to Start the interview and store everything 
 # in session to have a history
@@ -93,5 +96,9 @@ def finish_interview(request: FinishInterviewRequest):
     report = reportservice.generate_report(
         session.history
     )
+    report_repository.save_report(
+    session,
+    report,
+)
 
     return report
