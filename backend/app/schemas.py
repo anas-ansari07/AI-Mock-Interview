@@ -41,3 +41,20 @@ class InterviewReportResponse(BaseModel):
     weaknesses: list[str]
 
     recommendations: list[str]
+
+class DashboardSummary(BaseModel):
+    total_interviews: int
+    average_score: float
+    highest_score: int
+
+
+class RecentInterview(BaseModel):
+    id: int
+    username: str
+    role: str
+    overall_score: int
+
+
+class DashboardResponse(BaseModel):
+    summary: DashboardSummary
+    recent_interviews: list[RecentInterview]

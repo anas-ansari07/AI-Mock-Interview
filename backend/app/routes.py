@@ -7,7 +7,8 @@ from app.schemas import(
     StartInterviewRequest,
     AnswerRequest,
     AIInterviewResponse,
-    FinishInterviewRequest
+    FinishInterviewRequest,
+    DashboardResponse
 )
 
 from app.database.repository import ReportRepository
@@ -102,3 +103,24 @@ def finish_interview(request: FinishInterviewRequest):
 )
 
     return report
+
+@router.get(
+    "/dashboard",
+    response_model=DashboardResponse,
+)
+def dashboard():
+
+    data = report_repository.get_dashboard()
+
+    return {
+        "summary": data["summary"],
+        "recent_interviews": [
+            {
+                "id": interview.id,
+                "username": interview.username,
+                "role": interview.role,
+                "overall_score": interview.overall_score,
+            }
+            for interview in data["recent_interviews"]
+        ],
+    }
